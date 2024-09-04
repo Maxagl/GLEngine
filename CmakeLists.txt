@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.5)
+project(physics_engine)
+
+set(SOURCES
+   src/main.cpp
+   src/render/Camera.cpp
+   src/render/Mesh.cpp
+   src/render/ShaderLoader.cpp
+   src/render/LightRenderer.cpp
+   )
+
+include_directories(include)
+link_directories(src/libs)
+
+add_executable(physics_engine ${SOURCES})
+set_property(TARGET physics_engine PROPERTY CXX_STANDARD 17)
+
+add_library(opengl STATIC IMPORTED)
+set_target_properties(opengl PROPERTIES IMPORTED_LOCATION
+                      "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/um/x64/OpenGL32.Lib")     
+
+target_link_libraries(physics_engine glew32 glew32s glfw3_mt glfw3 glfw3dll)
+target_link_libraries(physics_engine opengl)                      
+
