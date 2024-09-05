@@ -1,11 +1,10 @@
 #pragma once
-#define real_sqrt sqrtf
 
 namespace cyclone{
     using real = float;
 
     #define DOUBLE_PRECISION
-    typedef double real;
+    //typedef double real;
     #define REAL_MAX DBL_MAX
     #define real_sqrt sqrt
     #define real_abs fabs

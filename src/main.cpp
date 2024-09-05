@@ -8,6 +8,7 @@
 #include "render/Mesh.h"
 #include "render/LightRenderer.h"
 #include "render/ShaderLoader.h"
+#include "demos/ball/ballistic.h"
 
 void renderScene();
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);

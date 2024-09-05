@@ -10,7 +10,6 @@ namespace cyclone
         Vector3 velocity;
         Vector3 acceleration;
         Vector3 forceAccum;
-        Vector3 acceleration;
 
         real damping;
         real inverseMass;
