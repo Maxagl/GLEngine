@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+
 #include "gl/glew.h"
 #include "render/Camera.h"
 #include "glfw/glfw3.h"
@@ -58,10 +59,48 @@ private:
 
     void fire()
     {
-        for(int i{0}; i < ammoRounds; ++i)
+        int i{0};
+        for(i; i < ammoRounds; ++i)
         {
             if(ammo[i]->type == UNUSED) break;
         }
+        if(i >= 16) return;
+
+        switch(currentShotType)
+        {
+            case PISTOL:
+                ammo[i]->particle.setMass(2.0f);
+                ammo[i]->particle.setVelocity(0.0f, 0.0f, 35.f);
+                ammo[i]->particle.setAcceleration(0.0f, -1.0f, 0.0f);
+                ammo[i]->particle.setDamping(0.99f);
+                break;
+
+            case ARTILLERY:
+                ammo[i]->particle.setMass(200.0f);
+                ammo[i]->particle.setVelocity(0.0f, 30.0f, 35.f);
+                ammo[i]->particle.setAcceleration(0.0f, -20.0f, 0.0f);
+                ammo[i]->particle.setDamping(0.99f);
+                break;
+
+            case FIREBALL:
+                ammo[i]->particle.setMass(1.0f);
+                ammo[i]->particle.setVelocity(0.0f, 0.0f, 10.f);
+                ammo[i]->particle.setAcceleration(0.0f, 0.6f, 0.0f);
+                ammo[i]->particle.setDamping(0.99f);
+                break;
+
+            case LASER:
+                ammo[i]->particle.setMass(0.1f);
+                ammo[i]->particle.setVelocity(0.0f, 0.0f, 100.f);
+                ammo[i]->particle.setAcceleration(0.0f, 0.6f, 0.0f);
+                ammo[i]->particle.setDamping(0.99f);
+                break;                  
+        }
+        ammo[i]->particle.setPosition(0.0f, 1.5f, 0.0f);
+        ammo[i]->startTime = glfwGetTime();
+        ammo[i]->type = currentShotType;
+
+        ammo[i]->particle.clearAccumulator();
     }
 
 public:
@@ -79,13 +118,26 @@ public:
     {
         return "Cyclone > Ballistic Demo";
     }
-    virtual void update()
+    virtual void update(float duration)
     {
-
+        if(duration <= 0.0f) return;
+        for(AmmoRound* shot : ammo)
+        {
+            if(shot->type != UNUSED)
+            {
+                shot->particle.integrate(duration);
+                if(shot->particle.getPosition().y < 0.0f || 
+                   shot->startTime + 5 < duration || 
+                   shot->particle.getPosition().z > 200.f)
+                {
+                    shot->type = UNUSED;
+                }
+            }
+        }
     }
     virtual void display()
     {
-
+        
     }
     virtual void mouse(int butto, int state, int x, int y)
     {
