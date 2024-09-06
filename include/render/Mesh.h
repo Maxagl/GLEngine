@@ -8,7 +8,7 @@ enum MeshType
     kTriangle = 0,
     kQuad = 1, 
     kCube = 2, 
-    kSphere = 3
+    kSphere = 3,
 };
 
 struct Vertex

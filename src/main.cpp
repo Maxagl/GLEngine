@@ -69,14 +69,16 @@ void initGame()
     ShaderLoader shader;
     GLuint flatShaderProgram = shader.CreateProgram("../Shaders/FlatModel.vs", "../Shaders/FlatModel.fs");
     camera = new Camera(glm::vec3(0.0f, 0.0f, 10.0f));
-    light = new LightRenderer(MeshType::kSphere, camera);
+    light = new LightRenderer(MeshType::kQuad, camera);
     light->setProgram(flatShaderProgram);
     light->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+
     for(int i{0}; i < 10; ++i)
     {
         lights[i] = new LightRenderer(MeshType::kSphere, camera);
         lights[i]->setProgram(flatShaderProgram);
         lights[i]->setPosition(glm::vec3(0.0f, 0.0f, -i * 2));
+        
     }
 }
 

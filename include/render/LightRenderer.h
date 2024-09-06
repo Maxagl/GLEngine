@@ -18,6 +18,7 @@ private:
     glm::vec3 position;
     glm::vec3 color;
     GLuint vbo, ebo, vao, texture, program;
+    MeshType mtype;
 
 
 public:

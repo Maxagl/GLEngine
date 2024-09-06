@@ -16,6 +16,7 @@ class balldemo
 {
 private:
     Camera* camera;
+    LightRenderer* enviroment;
     
 private:
     enum ShotType
@@ -137,7 +138,13 @@ public:
     }
     virtual void display()
     {
-        
+        ShaderLoader shader;
+        GLuint flatShaderProgram = shader.CreateProgram("../Shaders/FlatModel.vs", "../Shaders/FlatModel.fs");
+        // 发射点的球
+        enviroment = new LightRenderer(MeshType::kSphere, camera);
+        enviroment->setProgram(flatShaderProgram);
+        enviroment->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+        // 画几条线
     }
     virtual void mouse(int butto, int state, int x, int y)
     {
