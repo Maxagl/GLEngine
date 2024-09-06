@@ -15,6 +15,7 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window);
+void processMouseButton(GLFWwindow* window, int button, int action, int mods);
 void initGame();
 
 // settings
@@ -32,8 +33,7 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 LightRenderer* light;
-
-std::vector<LightRenderer*> lights(10, nullptr);
+balldemo* demo;
 
 int main()
 {
@@ -44,6 +44,8 @@ int main()
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     glfwSetCursorPosCallback(window, mouseCallback);
     glfwSetScrollCallback(window, scrollCallback);
+    glfwSetMouseButtonCallback(window, processMouseButton);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glewInit();
     initGame();
     while (!glfwWindowShouldClose(window))
@@ -73,27 +75,17 @@ void initGame()
     light->setProgram(flatShaderProgram);
     light->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
-    for(int i{0}; i < 10; ++i)
-    {
-        lights[i] = new LightRenderer(MeshType::kSphere, camera);
-        lights[i]->setProgram(flatShaderProgram);
-        lights[i]->setPosition(glm::vec3(0.0f, 0.0f, -i * 2));
-        
-    }
+    demo = new balldemo();
+
 }
 
 void renderScene()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(1.0f, 1.0f, 204.0f / 255.0f, 1.0f);
-    // light->draw(800, 600);
-    for(LightRenderer* l : lights)
-    {
-        float ypos = sin(glfwGetTime()) * 2;
-        l->setPosition(glm::vec3(l->getPosition().x, ypos, l->getPosition().z));
-        l->draw(800, 600);
-    }
-
+    light->draw(800, 600);
+    demo->update(deltaTime);
+    demo->display();
 }
 
 void processInput(GLFWwindow* window)
@@ -146,4 +138,12 @@ void mouseCallback(GLFWwindow* window, double xposIn, double yposIn)
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
     camera->ProcessMouseScroll(static_cast<float>(yoffset));
+}
+
+void processMouseButton(GLFWwindow* window, int button, int action, int mods)
+{
+    if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    {
+        demo->fire();
+    }
 }

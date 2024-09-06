@@ -7,9 +7,11 @@ set(SOURCES
    src/render/Mesh.cpp
    src/render/ShaderLoader.cpp
    src/render/LightRenderer.cpp
+   src/engine/particle.cpp
    )
 
 include_directories(include)
+include_directories(include/demos)
 link_directories(src/libs)
 
 add_executable(physics_engine ${SOURCES})

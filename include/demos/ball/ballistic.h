@@ -16,7 +16,8 @@ class balldemo
 {
 private:
     Camera* camera;
-    LightRenderer* enviroment;
+    std::vector<LightRenderer*> lines;
+    LightRenderer* ball;
     
 private:
     enum ShotType
@@ -58,6 +59,7 @@ private:
     std::vector<AmmoRound*> ammo{};
     ShotType currentShotType;
 
+public:
     void fire()
     {
         int i{0};
@@ -104,8 +106,7 @@ private:
         ammo[i]->particle.clearAccumulator();
     }
 
-public:
-    balldemo() : currentShotType(LASER)
+    balldemo() : currentShotType(LASER), lines(20)
     {
         ammo.resize(ammoRounds);
         camera = new Camera(glm::vec3(0.0f, 0.0f, 10.0f));
@@ -129,7 +130,7 @@ public:
                 shot->particle.integrate(duration);
                 if(shot->particle.getPosition().y < 0.0f || 
                    shot->startTime + 5 < duration || 
-                   shot->particle.getPosition().z > 200.f)
+                   shot->particle.getPosition().z > 400.f)
                 {
                     shot->type = UNUSED;
                 }
@@ -141,18 +142,15 @@ public:
         ShaderLoader shader;
         GLuint flatShaderProgram = shader.CreateProgram("../Shaders/FlatModel.vs", "../Shaders/FlatModel.fs");
         // 发射点的球
-        enviroment = new LightRenderer(MeshType::kSphere, camera);
-        enviroment->setProgram(flatShaderProgram);
-        enviroment->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+        ball = new LightRenderer(MeshType::kSphere, camera);
+        ball->setProgram(flatShaderProgram);
+        ball->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
         // 画几条线
+        for(int i{0}; i < lines.size(); ++i)
+        {
+            lines[i] = new LightRenderer(MeshType::kQuad, camera);
+            lines[i]->setProgram(flatShaderProgram);
+            lines[i]->setPosition(glm::vec3(i * 30, 0, 0));
+        }
     }
-    virtual void mouse(int butto, int state, int x, int y)
-    {
-
-    }
-    virtual void key(unsigned char key)
-    {
-    }
-
-
 };

@@ -62,8 +62,8 @@ void LightRenderer::draw(int width, int height)
     glUniformMatrix4fv(pLoc, 1, GL_FALSE, glm::value_ptr(proj));
 
     glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-    trans = glm::scale(trans, glm::vec3(0.5f, 1.0f, 1.0f));
+    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(1.0, 0.0, 0.0));
+    trans = glm::scale(trans, glm::vec3(0.05f, 1.0f, 1.0f));
     GLint tloc = glGetUniformLocation(program, "transform");
     glUniformMatrix4fv(tloc, 1, GL_FALSE, glm::value_ptr(trans));
 
