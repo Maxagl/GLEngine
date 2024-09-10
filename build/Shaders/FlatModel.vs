@@ -11,7 +11,7 @@ out vec3 outColor;
 
 void main(void){
 	
-	gl_Position = projection * view * model * transform * vec4(Position, 1.0);
+	gl_Position = projection * view * transform * model * vec4(Position, 1.0);
 	
 	outColor = Color;
 	

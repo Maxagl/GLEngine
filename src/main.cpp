@@ -46,6 +46,7 @@ int main()
     glfwSetScrollCallback(window, scrollCallback);
     glfwSetMouseButtonCallback(window, processMouseButton);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glewInit();
     initGame();
     while (!glfwWindowShouldClose(window))
@@ -70,12 +71,12 @@ void initGame()
     glEnable(GL_DEPTH_TEST);
     ShaderLoader shader;
     GLuint flatShaderProgram = shader.CreateProgram("../Shaders/FlatModel.vs", "../Shaders/FlatModel.fs");
-    camera = new Camera(glm::vec3(0.0f, 0.0f, 10.0f));
-    light = new LightRenderer(MeshType::kQuad, camera);
+    camera = new Camera(glm::vec3(-10.0f, 10.0f, 10.0f));
+    light = new LightRenderer(MeshType::kSphere, camera);
     light->setProgram(flatShaderProgram);
     light->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
-    demo = new balldemo();
+    demo = new balldemo(flatShaderProgram, camera);
 
 }
 

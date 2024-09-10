@@ -11,7 +11,6 @@ set(SOURCES
    )
 
 include_directories(include)
-include_directories(include/demos)
 link_directories(src/libs)
 
 add_executable(physics_engine ${SOURCES})

@@ -18,6 +18,7 @@ private:
     Camera* camera;
     std::vector<LightRenderer*> lines;
     LightRenderer* ball;
+    GLuint shaderProgram;
     
 private:
     enum ShotType
@@ -35,12 +36,11 @@ private:
         ShotType type;
         unsigned startTime;
         LightRenderer* light;
-        AmmoRound(Camera* camera)
+        AmmoRound(Camera* camera, GLuint shaderProgram)
         {
             ShaderLoader shader;
-            GLuint flatShaderProgram = shader.CreateProgram("../Shaders/FlatModel.vs", "../Shaders/FlatModel.fs");
             light = new LightRenderer(MeshType::kSphere, camera);
-            light->setProgram(flatShaderProgram);
+            light->setProgram(shaderProgram);
             light->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
         }
         // 就是这里，不知道怎么写
@@ -106,13 +106,27 @@ public:
         ammo[i]->particle.clearAccumulator();
     }
 
-    balldemo() : currentShotType(LASER), lines(20)
+    balldemo(GLuint shaderProgram, Camera* outcamera) : currentShotType(LASER), lines(20)
     {
+        this->shaderProgram = shaderProgram;
+        this->camera = outcamera;
         ammo.resize(ammoRounds);
-        camera = new Camera(glm::vec3(0.0f, 0.0f, 10.0f));
+
+        ball = new LightRenderer(MeshType::kSphere, camera);
+        ball->setProgram(shaderProgram);
+        ball->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
         for(int i{0}; i < ammoRounds; ++i)
         {
+            ammo[i] = new AmmoRound(camera, shaderProgram);
             ammo[i]->type = UNUSED;
+        }
+        // 发射点的球
+        // 画几条线
+        for(int i{0}; i < lines.size(); ++i)
+        {
+            lines[i] = new LightRenderer(MeshType::kQuad, camera);
+            lines[i]->setProgram(shaderProgram);
+            lines[i]->setPosition(glm::vec3(i * 30, 0, 0));
         }
     }
 
@@ -139,18 +153,16 @@ public:
     }
     virtual void display()
     {
-        ShaderLoader shader;
-        GLuint flatShaderProgram = shader.CreateProgram("../Shaders/FlatModel.vs", "../Shaders/FlatModel.fs");
-        // 发射点的球
-        ball = new LightRenderer(MeshType::kSphere, camera);
-        ball->setProgram(flatShaderProgram);
-        ball->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-        // 画几条线
         for(int i{0}; i < lines.size(); ++i)
         {
-            lines[i] = new LightRenderer(MeshType::kQuad, camera);
-            lines[i]->setProgram(flatShaderProgram);
-            lines[i]->setPosition(glm::vec3(i * 30, 0, 0));
+            lines[i]->draw(800, 600);
+        }
+        for(int i{0}; i < ammoRounds; ++i)
+        {
+            if(ammo[i]->type != UNUSED)
+            {
+                ammo[i]->render();
+            }
         }
     }
 };

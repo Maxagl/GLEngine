@@ -1,5 +1,5 @@
 #pragma once
-
+#include <float.h>
 namespace cyclone{
     using real = float;
 

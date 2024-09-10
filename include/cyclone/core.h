@@ -137,5 +137,10 @@ namespace cyclone
                 (*this) *= ((real)l) / l;
             }
         }
+
+        void clear()
+        {
+            x = y = z = 0;
+        }
     };
 }

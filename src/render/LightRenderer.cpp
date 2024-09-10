@@ -1,5 +1,6 @@
 #include "render/LightRenderer.h"
 #include <iostream>
+#include "GLFW/glfw3.h"
 
 LightRenderer::LightRenderer(MeshType MeshType, Camera* camera)
 {
@@ -60,12 +61,20 @@ void LightRenderer::draw(int width, int height)
     glm::mat4 proj = glm::perspective(glm::radians(camera->Zoom), (float)width / (float)height, 0.1f, 100.0f);
     GLint pLoc = glGetUniformLocation(program, "projection");
     glUniformMatrix4fv(pLoc, 1, GL_FALSE, glm::value_ptr(proj));
-
+ 
     glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(1.0, 0.0, 0.0));
-    trans = glm::scale(trans, glm::vec3(0.05f, 1.0f, 1.0f));
+    // 最先变换的顺序应该在最后
+    // rotate是绕轴旋转，不是绕物体中心
+    //trans = glm::rotate(trans, glm::radians(180 * float(sin(glfwGetTime()))), glm::vec3(0.0, 0.0, 1.0));
+    trans = glm::scale(trans, glm::vec3(1.0f, 1.0f, 1.0f));
+    if(mtype == kSphere)
+    {
+        std::cout << "in translate" << std::endl;
+        trans = glm::translate(trans, glm::vec3(10.0f, 0.0f, 0.0f));
+    }
     GLint tloc = glGetUniformLocation(program, "transform");
     glUniformMatrix4fv(tloc, 1, GL_FALSE, glm::value_ptr(trans));
+
 
     glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
