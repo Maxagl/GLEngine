@@ -20,7 +20,7 @@ private:
     LightRenderer* ball;
     GLuint shaderProgram;
     
-private:
+public:
     enum ShotType
     {
         UNUSED = 0,
@@ -29,7 +29,8 @@ private:
         FIREBALL,
         LASER
     };
-
+    ShotType currentShotType;
+private:
     struct AmmoRound
     {
         cyclone::Particle particle;
@@ -57,7 +58,7 @@ private:
     // 下面的这种写法是不被允许的在类里面，会被看成是函数
     //std::vector<AmmoRound*> ammo(199, nullptr);
     std::vector<AmmoRound*> ammo{};
-    ShotType currentShotType;
+    
 
 public:
     void fire()
@@ -114,7 +115,7 @@ public:
 
         ball = new LightRenderer(MeshType::kSphere, camera);
         ball->setProgram(shaderProgram);
-        ball->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+        ball->setPosition(glm::vec3(0.0f, 2.0f, 0.0f));
         for(int i{0}; i < ammoRounds; ++i)
         {
             ammo[i] = new AmmoRound(camera, shaderProgram);
@@ -126,7 +127,8 @@ public:
         {
             lines[i] = new LightRenderer(MeshType::kQuad, camera);
             lines[i]->setProgram(shaderProgram);
-            lines[i]->setPosition(glm::vec3(i * 30, 0, 0));
+            lines[i]->setPosition(glm::vec3(0, 0, i * 20));
+            lines[i]->setTransform(glm::vec3(0.0, 0.0, 0.0), glm::vec3(10.0f, 0.1f, 1.0f));
         }
     }
 
@@ -153,6 +155,7 @@ public:
     }
     virtual void display()
     {
+        ball->draw(800, 600);
         for(int i{0}; i < lines.size(); ++i)
         {
             lines[i]->draw(800, 600);

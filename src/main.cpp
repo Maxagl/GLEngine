@@ -72,9 +72,6 @@ void initGame()
     ShaderLoader shader;
     GLuint flatShaderProgram = shader.CreateProgram("../Shaders/FlatModel.vs", "../Shaders/FlatModel.fs");
     camera = new Camera(glm::vec3(-10.0f, 10.0f, 10.0f));
-    light = new LightRenderer(MeshType::kSphere, camera);
-    light->setProgram(flatShaderProgram);
-    light->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
     demo = new balldemo(flatShaderProgram, camera);
 
@@ -84,7 +81,6 @@ void renderScene()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(1.0f, 1.0f, 204.0f / 255.0f, 1.0f);
-    light->draw(800, 600);
     demo->update(deltaTime);
     demo->display();
 }
@@ -110,6 +106,23 @@ void processInput(GLFWwindow* window)
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {   
         camera->ProcessKeyboard(RIGHT, deltaTime);
+    }
+    // set fire type
+    if(glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
+    {   
+        demo->currentShotType = balldemo::ShotType::PISTOL;
+    }
+    if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+    {   
+        demo->currentShotType = balldemo::ShotType::ARTILLERY;
+    }
+    if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+    {   
+        demo->currentShotType = balldemo::ShotType::FIREBALL;
+    }
+    if(glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+    {   
+        demo->currentShotType = balldemo::ShotType::LASER;
     }
 }
 
