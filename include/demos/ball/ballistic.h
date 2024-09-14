@@ -10,15 +10,14 @@
 #include "render/ShaderLoader.h"
 #include "render/Mesh.h"
 #include "render/LightRenderer.h"
+#include "demos/demo.h"
 
 
-class balldemo
+class balldemo : public demo
 {
 private:
-    Camera* camera;
     std::vector<LightRenderer*> lines;
     LightRenderer* ball;
-    GLuint shaderProgram;
     
 public:
     enum ShotType
@@ -132,11 +131,11 @@ public:
         }
     }
 
-    virtual const std::string getTitle()
+    const std::string getTitle() override
     {
         return "Cyclone > Ballistic Demo";
     }
-    virtual void update(float duration)
+    void update(float duration) override
     {
         if(duration <= 0.0f) return;
         for(AmmoRound* shot : ammo)
@@ -153,7 +152,7 @@ public:
             }
         }
     }
-    virtual void display()
+    void display() override
     {
         ball->draw(800, 600);
         for(int i{0}; i < lines.size(); ++i)
