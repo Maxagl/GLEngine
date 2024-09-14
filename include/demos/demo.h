@@ -17,8 +17,12 @@ class demo
 public:
     Camera* camera;
     GLuint shaderProgram;
-private:
+
+
+public:
     virtual const std::string getTitle() = 0;
     virtual void update(float duration) = 0;
     virtual void display() = 0;
+    virtual void processInput(GLFWwindow* window) = 0;
+    virtual void processMouseButton(GLFWwindow* window, int button, int action, int mods) = 0;
 };

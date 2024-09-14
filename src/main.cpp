@@ -107,23 +107,7 @@ void processInput(GLFWwindow* window)
     {   
         camera->ProcessKeyboard(RIGHT, deltaTime);
     }
-    // set fire type
-    if(glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
-    {   
-        demo->currentShotType = balldemo::ShotType::PISTOL;
-    }
-    if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-    {   
-        demo->currentShotType = balldemo::ShotType::ARTILLERY;
-    }
-    if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
-    {   
-        demo->currentShotType = balldemo::ShotType::FIREBALL;
-    }
-    if(glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-    {   
-        demo->currentShotType = balldemo::ShotType::LASER;
-    }
+    demo->processInput(window);
 }
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -149,15 +133,13 @@ void mouseCallback(GLFWwindow* window, double xposIn, double yposIn)
     
     camera->ProcessMouseMovement(xoffset, yoffset);
 }
+
+void processMouseButton(GLFWwindow* window, int button, int action, int mods)
+{
+    demo->processMouseButton(window, button, action, mods);
+}
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
     camera->ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
-void processMouseButton(GLFWwindow* window, int button, int action, int mods)
-{
-    if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
-    {
-        demo->fire();
-    }
-}

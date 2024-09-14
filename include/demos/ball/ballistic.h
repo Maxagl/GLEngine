@@ -167,4 +167,32 @@ public:
             }
         }
     }
+    void processInput(GLFWwindow* window) override
+    {
+        // set fire type
+        if(glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
+        {   
+            this->currentShotType = ShotType::PISTOL;
+        }
+        if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+        {   
+            this->currentShotType = ShotType::ARTILLERY;
+        }
+        if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+        {   
+            this->currentShotType = ShotType::FIREBALL;
+        }
+        if(glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+        {   
+            this->currentShotType = ShotType::LASER;
+        }
+    }
+
+    void processMouseButton(GLFWwindow* window, int button, int action, int mods) override
+    {
+        if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+        {
+            this->fire();
+        }
+    }
 };
