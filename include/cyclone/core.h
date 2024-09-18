@@ -143,4 +143,5 @@ namespace cyclone
             x = y = z = 0;
         }
     };
+
 }
