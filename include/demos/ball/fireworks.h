@@ -77,6 +77,5 @@ public:
     void create(Firework* firework, const Firework* parent = nullptr) const
     {
         firework->type = type;
-        firework->age = crandom
     }
 };
