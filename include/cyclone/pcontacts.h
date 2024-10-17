@@ -8,6 +8,7 @@ namespace cyclone
         Particle* particle[2];
         real restitution;
         Vector3 contactNormal;
+        
     protected:
         void resolve(real duration);
         real calculateSeparatingVelocity() const;
