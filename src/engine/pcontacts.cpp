@@ -41,3 +41,27 @@ void ParticleContact::resolveVelocity(real duration)
         particle[1]->setVelocity(particle[1]->getVelocity() + impulsePerIMass * -particle[1]->getInverseMass());
     }
 }
+
+void ParticleContact::resolve(real duraiton)
+{
+    resolveVelocity(duraiton);
+    resolveInterpenetration(duraiton);
+}
+
+void ParticleContact::resolveInterpenetration(real duraiton)
+{
+    if(penetration <= 0) return;
+
+    // 计算总质量
+    real totalInverseMass = particle[0]->getInverseMass();
+    if(particle[1]) totalInverseMass += particle[1]->getInverseMass();
+
+    if(totalInverseMass <= 0) return;
+    Vector3 movePerIMass = contactNormal * (-penetration / totalInverseMass);
+    // 按照质量分配移动距离
+    particle[0]->setPosition(particle[0]->getPosition() + movePerIMass * particle[0]->getInverseMass());
+    if(particle[1])
+    {
+        particle[1]->setPosition(particle[1]->getPosition() + movePerIMass * particle[1]->getInverseMass());
+    }
+}
