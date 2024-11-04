@@ -57,6 +57,7 @@ void ParticleContact::resolveInterpenetration(real duraiton)
     if(particle[1]) totalInverseMass += particle[1]->getInverseMass();
 
     if(totalInverseMass <= 0) return;
+    // 单位质量需要移动的距离
     Vector3 movePerIMass = contactNormal * (-penetration / totalInverseMass);
     // 按照质量分配移动距离
     particle[0]->setPosition(particle[0]->getPosition() + movePerIMass * particle[0]->getInverseMass());
