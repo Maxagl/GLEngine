@@ -24,6 +24,16 @@ void ParticleContact::resolveVelocity(real duration)
 
     real newSepVelocity = -separatingVelocity * restitution;
 
+    Vector3 accCauseVelocity = particle[0]->getAcceleration();
+    real accCauseSepVelocity = accCauseVelocity * contactNormal * duration;
+
+    if(accCauseSepVelocity < 0)
+    {
+        newSepVelocity += restitution * accCauseSepVelocity;
+        if(newSepVelocity < 0) newSepVelocity = 0;
+    }  
+
+
     real deltaVelocity = newSepVelocity - separatingVelocity;
 
     real totalInverseMass = particle[0]->getInverseMass();
