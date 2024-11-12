@@ -10,7 +10,7 @@ void ParticleContact::resolve(real duration)
 real ParticleContact::calculateSeparatingVelocity() const
 {
     Vector3 relativeVelocity = particle[0]->getVelocity();
-    if(particle[1]) relativeVelocity -=  particle[1]->getVelocity();
+    if(particle[1]) relativeVelocity -= particle[1]->getVelocity();
     return relativeVelocity * contactNormal;
 }
 
@@ -75,4 +75,36 @@ void ParticleContact::resolveInterpenetration(real duraiton)
     {
         particle[1]->setPosition(particle[1]->getPosition() + movePerIMass * particle[1]->getInverseMass());
     }
+
+}
+
+ParticleContactResolver::ParticleContactResolver(unsigned iteration)
+{
+
+}
+void ParticleContactResolver::setIterations(unsigned iterations)
+{
+
+}
+void ParticleContactResolver::resolveContacts(ParticleContact* contactArray, unsigned numContacts, real duration)
+{
+    iterationsUsed = 0;
+    while (iterationsUsed < iterations)
+    {
+        real max = 0;
+        unsigned maxIndex = numContacts;
+        for(unsigned i{0}; i < numContacts; ++i)
+        {
+            real sepVel = contactArray[i].calculateSeparatingVelocity();
+            if(sepVel < max)
+            {
+                max = sepVel;
+                maxIndex = i;
+            }
+        }
+
+        contactArray[maxIndex].resolve(duration);
+        ++iterationsUsed;
+    }
+    
 }
