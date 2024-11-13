@@ -1,3 +1,4 @@
+#pragma once
 #include "cyclone/particle.h"
 #include <vector>
 
@@ -171,41 +172,42 @@ namespace cyclone
 
             particle->addForce(force);
         }
+    };
 
+    #define real_sin sinf
+    #define real_cos cosf
+    #define real_exp expf
 
-        #define real_sin sinf
-        #define real_cos cosf
-        #define real_exp expf
-
-        class ParticleFakeSpring : public ParticleForceGenerator
+    class ParticleFakeSpring : public ParticleForceGenerator
+    {
+        Vector3* anchor;
+        real springConstant;
+        real damping;
+    public:
+        ParticleFakeSpring(Vector3* anchor, real springConstant, real damping)
         {
-            Vector3* anchor;
-            real springConstant;
-            real damping;
-        public:
-            ParticleFakeSpring(Vector3* anchor, real springConstant, real damping)
-            {
 
-            }
-            virtual void updateForce(Particle* particle, real duration)
-            {
-                if(!particle->hasFiniteMass()) return;
-                
-                Vector3 position;
-                particle->getPosition(&position);
-                position -= *anchor;
-
-                real gamma = 0.5f * real_sqrt(4 * springConstant - damping * damping);
-                if(gamma == 0.0f) return;
-                Vector3 c = position * (damping / (2.0f * gamma)) + particle->getVelocity() * (1.0f / gamma);
-
-                Vector3 target = position * real_cos(gamma * duration) + c * real_sin(gamma * duration);
-                target *= real_exp(-0.5f * duration * damping);
-
-                Vector3 accel = (target - position) * (1.0f / duration * duration) - particle->getVelocity() * duration;
-                particle->addForce(accel * particle->getMass());
-            }
         }
+        virtual void updateForce(Particle* particle, real duration)
+        {
+            if(!particle->hasFiniteMass()) return;
+            
+            Vector3 position;
+            particle->getPosition(&position);
+            position -= *anchor;
 
+            real gamma = 0.5f * real_sqrt(4 * springConstant - damping * damping);
+            if(gamma == 0.0f) return;
+            Vector3 c = position * (damping / (2.0f * gamma)) + particle->getVelocity() * (1.0f / gamma);
+
+            Vector3 target = position * real_cos(gamma * duration) + c * real_sin(gamma * duration);
+            target *= real_exp(-0.5f * duration * damping);
+
+            Vector3 accel = (target - position) * (1.0f / duration * duration) - particle->getVelocity() * duration;
+            particle->addForce(accel * particle->getMass());
+        }
     };
 }
+
+
+
