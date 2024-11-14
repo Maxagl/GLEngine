@@ -83,4 +83,26 @@ namespace cyclone
         contact->restitution = 0;
         return 1;
     }
+
+    class ParticleConstraint : public ParticleContactGenerator
+    {
+    public:
+        Particle* particle;
+        Vector3 anchor;
+    
+    protected:
+        real currentLength() const;
+    
+    public:
+        virtual unsigned addContact(ParticleContact* contact, unsigned limit) const = 0;
+    };
+
+    class ParticleRodConstraint : public ParticleConstraint
+    {
+    public:
+        real length;
+    
+    public:
+        virtual unsigned addContact(ParticleContact* contact, unsigned limit) const;
+    };
 }
