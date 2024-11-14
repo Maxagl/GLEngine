@@ -97,6 +97,14 @@ namespace cyclone
         virtual unsigned addContact(ParticleContact* contact, unsigned limit) const = 0;
     };
 
+    class ParticleCableConstraint : public ParticleContactGenerator
+    {
+    public:
+        real maxLength;
+        real restitution;
+    public:
+        virtual unsigned addContact(ParticleContact* contact, unsigned limit) const;
+    };
     class ParticleRodConstraint : public ParticleConstraint
     {
     public:
