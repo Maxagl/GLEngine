@@ -10,6 +10,7 @@
 #include "render/ShaderLoader.h"
 #include "render/Mesh.h"
 #include "render/LightRenderer.h"
+#include "cyclone/cyclone.h"
 
 
 class demo
@@ -25,4 +26,13 @@ public:
     virtual void display() = 0;
     virtual void processInput(GLFWwindow* window) = 0;
     virtual void processMouseButton(GLFWwindow* window, int button, int action, int mods) = 0;
+};
+
+class MassAggregateApplication : public demo
+{
+protected:
+    cyclone::ParticleWorld world;
+    cyclone::Particle* particlArray;
+    cyclone::GroundContacts ground;
+
 };

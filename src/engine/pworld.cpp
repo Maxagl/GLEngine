@@ -49,6 +49,31 @@ namespace cyclone
         resolver.resolveContacts(contacts, usedContacts, duration);
     }
     
+    void GroundContacts::init(ParticleWorld::Particles* particles)
+    {
+        GroundContacts::particles = particles;
+    }
+
+    unsigned GroundContacts::addContact(cyclone::ParticleContact* contact, unsigned limit) const
+    {
+        unsigned count = 0;
+        for(ParticleWorld::Particles::iterator p = particles->begin(); p != particles->end(); ++p)
+        {
+            cyclone::real y = (*p)->getPosition().y;
+            if(y < 0.0f)
+            {
+                contact->contactNormal = Vector3::UP;
+                contact->particle[0] = *p;
+                contact->particle[1] = nullptr;
+                contact->penetration = -y;
+                contact->restitution = 0.2;
+                contact++;
+                count++;
+            }
+            if(count >= limit) return count;
+        }
+        return count;
+    }
 }
 
 

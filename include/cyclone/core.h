@@ -9,7 +9,14 @@ namespace cyclone
         real x;
         real y;
         real z;
-
+        const static Vector3 GRAVITY;
+        const static Vector3 HIGH_GRAVITY;
+        const static Vector3 UP;
+        const static Vector3 RIGHT;
+        const static Vector3 OUT_OF_SCREEN;
+        const static Vector3 X;
+        const static Vector3 Y;
+        const static Vector3 Z;
     private:
         real pad;
 
@@ -149,5 +156,12 @@ namespace cyclone
             x = y = z = 0;
         }
     };
-
+    const Vector3 Vector3::GRAVITY = Vector3(0, -9.81, 0);
+    const Vector3 Vector3::HIGH_GRAVITY = Vector3(0, -19.62, 0);
+    const Vector3 Vector3::UP = Vector3(0, 1, 0);
+    const Vector3 Vector3::RIGHT = Vector3(1, 0, 0);
+    const Vector3 Vector3::OUT_OF_SCREEN = Vector3(0, 0, 1);
+    const Vector3 Vector3::X = Vector3(0, 1, 0);
+    const Vector3 Vector3::Y = Vector3(1, 0, 0);
+    const Vector3 Vector3::Z = Vector3(0, 0, 1);
 }
