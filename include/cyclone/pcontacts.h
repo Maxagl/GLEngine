@@ -1,3 +1,4 @@
+#pragma once
 #include "cyclone/particle.h"
 
 namespace cyclone
@@ -14,7 +15,6 @@ namespace cyclone
         void resolve(real duration);
         real calculateSeparatingVelocity() const;
         void resolveInterpenetration(real duraiton);
-        void resolve(real duration);
 
     private:
         void resolveVelocity(real duration);

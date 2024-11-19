@@ -16,9 +16,6 @@ namespace cyclone
         ParticleRegistration* firstParticle;
         using Particles = std::vector<Particle*>;
         using ContactGenerators = std::vector<ParticleContactGenerator*>;
-    public:
-        ParticleWorld(unsigned maxContacts, unsigned iterations=0);
-        void startFrame();
     
     public:
         ParticleForceRegistry registry;
@@ -33,12 +30,22 @@ namespace cyclone
         };
         ContactGenRegistration* firstContactGen;
         ParticleContact* contacts;
+
+        Particles particles;
+        ContactGenerators contactGenerators;
+
         unsigned maxContacts;
     
     public:
+        ParticleWorld(unsigned maxContacts, unsigned iterations=0);
         unsigned generateContacts();
         void integrate(real duration);
         void runPhysics(real duration);
+        void startFrame();
+        Particles& getParticles();
+        ContactGenerators& getContactGenerators();
+        ParticleForceRegistry& getForceRegistry();
+
     };
 
     class GroundContacts : public ParticleContactGenerator

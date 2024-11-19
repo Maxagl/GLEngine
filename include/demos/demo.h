@@ -28,11 +28,11 @@ public:
     virtual void processMouseButton(GLFWwindow* window, int button, int action, int mods) = 0;
 };
 
-class MassAggregateApplication : public demo
+class MassAggregateDemo : public demo
 {
 protected:
     cyclone::ParticleWorld world;
-    cyclone::Particle* particlArray;
+    cyclone::Particle* particleArray;
     cyclone::GroundContacts ground;
 
 };

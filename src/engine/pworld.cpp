@@ -49,6 +49,21 @@ namespace cyclone
         resolver.resolveContacts(contacts, usedContacts, duration);
     }
     
+    ParticleWorld::Particles& ParticleWorld::getParticles()
+    {
+        return particles;
+    }
+
+    ParticleWorld::ContactGenerators& ParticleWorld::getContactGenerators()
+    {
+        return contactGenerators;
+    }
+
+    ParticleForceRegistry& ParticleWorld::getForceRegistry()
+    {
+        return registry;
+    }
+
     void GroundContacts::init(ParticleWorld::Particles* particles)
     {
         GroundContacts::particles = particles;

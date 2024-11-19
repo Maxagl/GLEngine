@@ -2,11 +2,6 @@
 
 using namespace cyclone;
 
-void ParticleContact::resolve(real duration)
-{
-    resolveVelocity(duration);
-}
-
 real ParticleContact::calculateSeparatingVelocity() const
 {
     Vector3 relativeVelocity = particle[0]->getVelocity();

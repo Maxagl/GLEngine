@@ -9,10 +9,10 @@
  * implies agreement with all terms and conditions of the accompanying
  * software licence.
  */
-
+#pragma once
 #include "cyclone/cyclone.h"
 #include "demos/demo.h"
-
+#include "cyclone/pcontacts.h"
 #include <stdio.h>
 #include <cassert>
 
@@ -26,7 +26,7 @@
 /**
  * The main demo class definition.
  */
-class BridgeDemo : public demo
+class BridgeDemo : public MassAggregateDemo
 {
     cyclone::ParticleCableConstraint *supports;
     cyclone::ParticleCable *cables;

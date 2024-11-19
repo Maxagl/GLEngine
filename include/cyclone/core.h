@@ -156,6 +156,7 @@ namespace cyclone
             x = y = z = 0;
         }
     };
+
     const Vector3 Vector3::GRAVITY = Vector3(0, -9.81, 0);
     const Vector3 Vector3::HIGH_GRAVITY = Vector3(0, -19.62, 0);
     const Vector3 Vector3::UP = Vector3(0, 1, 0);

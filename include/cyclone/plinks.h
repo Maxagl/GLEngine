@@ -1,16 +1,17 @@
+#pragma once
 #include "cyclone/particle.h"
 #include "cyclone/pcontacts.h"
 
 namespace cyclone
 {
-    class ParticleLink
+    class ParticleLink : ParticleContactGenerator
     {
     public:
         Particle* particle[2];
     protected:
         real currentLength() const;
     public:
-        virtual unsigned fillContact(ParticleContact* contact, unsigned limit) const = 0;
+        virtual unsigned addContact(ParticleContact* contact, unsigned limit) const = 0;
     };
     
     class ParticleCable : public ParticleLink
@@ -20,7 +21,7 @@ namespace cyclone
         real restitution;
     
     public:
-        virtual unsigned fillContact(ParticleContact* contact, unsigned limit) const;
+        virtual unsigned addContact(ParticleContact* contact, unsigned limit) const;
     };
 
     real ParticleLink::currentLength() const
@@ -29,7 +30,7 @@ namespace cyclone
         return relativePos.magnitude();
     }
 
-    unsigned ParticleCable::fillContact(ParticleContact* contact, unsigned limit) const
+    unsigned ParticleCable::addContact(ParticleContact* contact, unsigned limit) const
     {
         real length = currentLength();
         if(length < maxLength)
@@ -55,10 +56,10 @@ namespace cyclone
     public:
         real currentLength() const;
 
-        virtual unsigned fillContact(ParticleContact* contact, unsigned limit) const;
+        virtual unsigned addContact(ParticleContact* contact, unsigned limit) const;
     };
 
-    unsigned ParticleRod::fillContact(ParticleContact* contact, unsigned limit) const
+    unsigned ParticleRod::addContact(ParticleContact* contact, unsigned limit) const
     {
         real currentLen = currentLength();
 

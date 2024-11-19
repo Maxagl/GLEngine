@@ -1,3 +1,4 @@
+#pragma once
 #include "cyclone/precision.h"
 #include "cyclone/core.h"
 // #include "cyclone/random.h"
