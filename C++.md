@@ -49,3 +49,54 @@ public:
 };
 
 ```
+## member function
+Inline member functions
+
+Member functions are not exempt from the ODR, so you may be wondering how we avoid ODR violations when member functions are defined in a header file (that may then be included into more than one translation unit).
+
+Member functions defined inside the class definition are **implicitly inline. Inline functions are exempt from the one definition per program part of the one-definition rule**.
+
+Member functions defined **outside the class definition are not implicitly inline** (and thus are subject to the one definition per program part of the one-definition rule). This is why such functions are usually defined in a code file (where they will only have one definition across the whole program).
+
+Alternatively, member functions defined outside the class definition can be left in the header file **if they are made inline** (using the inline keyword). Here’s our Date.h header again, with the member functions defined outside the class marked as inline:
+
+he function definition will be copied into multiple .cpp files. These files will then be compiled, and the linker will throw an error because it will note that you’ve defined the same function more than once, which is a violation of the one-definition rule.
+
+***In modern C++, the term inline has evolved to mean “multiple definitions are allowed”. Thus, an inline function is one that is allowed to be defined in multiple translation units (without violating the ODR).***
+```c++
+#ifndef DATE_H
+#define DATE_H
+
+#include <iostream>
+
+class Date
+{
+private:
+    int m_year{};
+    int m_month{};
+    int m_day{};
+
+public:
+    Date(int year, int month, int day);
+
+    void print() const;
+
+    int getYear() const { return m_year; }
+    int getMonth() const { return m_month; }
+    int getDay() const { return m_day; }
+};
+
+inline Date::Date(int year, int month, int day) // now inline
+    : m_year{ year }
+    , m_month{ month }
+    , m_day{ day }
+{
+}
+
+inline void Date::print() const // now inline
+{
+    std::cout << "Date(" << m_year << ", " << m_month << ", " << m_day << ")\n";
+};
+
+#endif
+```

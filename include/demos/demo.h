@@ -33,6 +33,7 @@ class MassAggregateDemo : public demo
 protected:
     cyclone::ParticleWorld world;
     cyclone::Particle* particleArray;
-    cyclone::GroundContacts ground;
-
+    cyclone::GroundContacts groundContactGenerator;
+public:
+    MassAggregateDemo(unsigned int particleCount);
 };

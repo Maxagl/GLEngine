@@ -58,8 +58,7 @@ public:
 
 // Method definitions
 BridgeDemo::BridgeDemo()
-: cables(0), supports(0), rods(0),
-massPos(0,0,0.5f)
+:MassAggregateDemo(12), cables(0), supports(0), rods(0),massPos(0,0,0.5f)
 {
     // Create the masses and connections.
     for (unsigned i = 0; i < 12; i++)
@@ -237,10 +236,6 @@ void BridgeDemo::update()
     updateAdditionalMass();
 }
 
-const char* BridgeDemo::getTitle()
-{
-    return "Cyclone > Bridge Demo";
-}
 
 void BridgeDemo::key(unsigned char key)
 {
@@ -262,17 +257,5 @@ void BridgeDemo::key(unsigned char key)
         massPos.x += 0.1f;
         if (massPos.x > 5.0f) massPos.x = 5.0f;
         break;
-
-    default:
-        MassAggregateApplication::key(key);
     }
-}
-
-/**
- * Called by the common demo framework to create an application
- * object (with new) and return a pointer.
- */
-Application* getApplication()
-{
-    return new BridgeDemo();
 }

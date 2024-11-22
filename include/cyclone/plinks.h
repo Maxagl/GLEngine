@@ -4,7 +4,7 @@
 
 namespace cyclone
 {
-    class ParticleLink : ParticleContactGenerator
+    class ParticleLink : public ParticleContactGenerator
     {
     public:
         Particle* particle[2];
@@ -54,11 +54,8 @@ namespace cyclone
     public:
         real length;
     public:
-        real currentLength() const;
-
         virtual unsigned addContact(ParticleContact* contact, unsigned limit) const;
     };
-
     unsigned ParticleRod::addContact(ParticleContact* contact, unsigned limit) const
     {
         real currentLen = currentLength();
@@ -98,7 +95,7 @@ namespace cyclone
         virtual unsigned addContact(ParticleContact* contact, unsigned limit) const = 0;
     };
 
-    class ParticleCableConstraint : public ParticleContactGenerator
+    class ParticleCableConstraint : public ParticleConstraint
     {
     public:
         real maxLength;

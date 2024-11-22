@@ -2,6 +2,13 @@
 
 namespace cyclone
 {
+
+    ParticleWorld::ParticleWorld(unsigned maxContacts, unsigned iterations=0)
+    : resolver(iterations), maxContacts(maxContacts)
+    {
+        contacts = new ParticleContact[maxContacts];
+        calculateIterations = (iterations == 0);
+    }
     void ParticleWorld::startFrame()
     {
         ParticleRegistration* reg = firstParticle;

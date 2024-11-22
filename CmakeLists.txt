@@ -10,6 +10,7 @@ set(SOURCES
    src/engine/particle.cpp
    src/engine/pcontacts.cpp
    src/engine/pworld.cpp
+   src/engine/core.cpp
    )
 
 include_directories(include)
