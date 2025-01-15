@@ -100,3 +100,12 @@ inline void Date::print() const // now inline
 
 #endif
 ```
+
+
+## defalut argument
+Default Values Must Be Specified in Function Declarations
+
+The default values for parameters must be specified in the function declaration (or prototype). If a function is declared and defined separately, the default values must be in the declaration, not in definition.
+
+## 行列式记忆
+![alt text](image.png)

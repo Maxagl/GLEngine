@@ -10,14 +10,14 @@ namespace cyclone
         
         assert(duration > 0.0f);
 
-        position.addScaleVector(velocity, duration);
+        position.addScaledVector(velocity, duration);
 
         Vector3 resultingAcc = acceleration;
-        resultingAcc.addScaleVector(forceAccum, inverseMass);
+        resultingAcc.addScaledVector(forceAccum, inverseMass);
         // v = v * d^t + a * t, d是阻尼
         // 但下面的更新v先变化了，不会对后面的阻尼变更有影响吗
         // 测试一下
-        velocity.addScaleVector(resultingAcc, duration);
+        velocity.addScaledVector(resultingAcc, duration);
 
         velocity *= real_pow(damping, duration);
         clearAccumulator();
